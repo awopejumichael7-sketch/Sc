@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Dashboard — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="brand">
+      <span class="seal"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#1E3A8A"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <span class="side-label">Learning</span>
+    <a class="side-link active" data-section="overview"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <a class="side-link" data-section="courses"><i class="fa-solid fa-layer-group"></i> My Courses</a>
+    <a class="side-link" data-section="library"><i class="fa-solid fa-book"></i> Library</a>
+    <a class="side-link" data-section="ai"><i class="fa-solid fa-robot"></i> AI Tutor</a>
+    <a class="side-link" data-section="exams"><i class="fa-solid fa-file-pen"></i> Exams</a>
+    <span class="side-label">Progress</span>
+    <a class="side-link" data-section="grades"><i class="fa-solid fa-chart-line"></i> Grades & Progress</a>
+    <a class="side-link" data-section="achievements"><i class="fa-solid fa-trophy"></i> Badges & Achievements</a>
+    <a class="side-link" data-section="leaderboard"><i class="fa-solid fa-ranking-star"></i> Class Leaderboard</a>
+    <a class="side-link" data-section="calendar"><i class="fa-solid fa-calendar-days"></i> Calendar</a>
+    <span class="side-label">Community & Tools</span>
+    <a class="side-link" href="study-tools.html"><i class="fa-solid fa-toolbox"></i> Study Tools</a>
+    <a class="side-link" href="forum.html"><i class="fa-solid fa-comments"></i> Forum & Chat</a>
+    <a class="side-link" href="live-class.html"><i class="fa-solid fa-video"></i> Live Class</a>
+    <a class="side-link" href="timetable.html"><i class="fa-solid fa-table-cells"></i> Timetable & Events</a>
+    <a class="side-link" href="help-center.html"><i class="fa-solid fa-circle-question"></i> Help Center</a>
+    <span class="side-label">Account</span>
+    <a class="side-link" data-section="profile"><i class="fa-solid fa-id-card"></i> Profile & Digital ID</a>
+    <a class="side-link" data-section="notifications"><i class="fa-solid fa-bell"></i> Notifications</a>
+    <a class="side-link" id="logoutLink"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="flex items-center gap-12">
+        <button class="icon-btn sidebar-toggle" data-nav-toggle="#sidebar" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        <div><div style="font-weight:700;">My Classroom</div><div class="text-muted" style="font-size:.78rem;" id="welcomeLine">Welcome back</div></div>
+      </div>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+    </div>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <section class="dash-section" id="sec-overview">
+        <h1 class="page-title">Welcome back!</h1>
+        <p class="page-sub">Here's where you left off.</p>
+        <div class="grid grid-4 mb-24">
+          <div class="card stat-tile"><div class="ic" style="background:rgba(30,58,138,.1);color:var(--royal);"><i class="fa-solid fa-layer-group"></i></div><div><div class="n" id="statCourses">–</div><div class="l">Enrolled Courses</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(201,162,39,.15);color:var(--warn);"><i class="fa-solid fa-star"></i></div><div><div class="n" id="statXp">–</div><div class="l">XP Earned</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(31,157,85,.12);color:var(--success);"><i class="fa-solid fa-chart-line"></i></div><div><div class="n" id="statProgress">–</div><div class="l">Avg. Progress</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(192,57,43,.1);color:var(--danger);"><i class="fa-solid fa-bell"></i></div><div><div class="n" id="statNotifs">–</div><div class="l">Notifications</div></div></div>
+        </div>
+        <div class="grid" style="grid-template-columns:2fr 1fr;">
+          <div class="card" style="padding:22px;">
+            <h3 style="margin:0 0 16px;font-size:1rem;">Announcements</h3>
+            <div id="announcementsFeed" style="display:flex;flex-direction:column;gap:12px;"></div>
+          </div>
+          <div class="card" style="padding:22px;">
+            <h3 style="margin:0 0 16px;font-size:1rem;">Your progress</h3>
+            <canvas id="progressChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- MY COURSES -->
+      <section class="dash-section hidden" id="sec-courses">
+        <h1 class="page-title">My Courses</h1>
+        <div class="grid grid-3" id="myCoursesGrid"></div>
+      </section>
+
+      <!-- LIBRARY -->
+      <section class="dash-section hidden" id="sec-library">
+        <h1 class="page-title">Library</h1>
+        <p class="page-sub">Ebooks, handbook, syllabus, audio, and videos for your courses. Videos & audio stream only.</p>
+        <div class="tabs" data-tab-group="libTabs">
+          <button class="tab-btn active" data-tab-target="libAll">All</button>
+          <button class="tab-btn" data-tab-target="libEbooks">Ebooks</button>
+          <button class="tab-btn" data-tab-target="libAudio">Audio</button>
+          <button class="tab-btn" data-tab-target="libVideo">Video</button>
+        </div>
+        <div data-tab-panel-group="libTabs">
+          <div class="tab-panel active" id="libAll"><div class="grid grid-3" id="libAllGrid"></div></div>
+          <div class="tab-panel" id="libEbooks"><div class="grid grid-3" id="libEbooksGrid"></div></div>
+          <div class="tab-panel" id="libAudio"><div class="grid grid-3" id="libAudioGrid"></div></div>
+          <div class="tab-panel" id="libVideo"><div class="grid grid-3" id="libVideoGrid"></div></div>
+        </div>
+      </section>
+
+      <!-- AI TUTOR -->
+      <section class="dash-section hidden" id="sec-ai">
+        <h1 class="page-title">AI Tutor</h1>
+        <p class="page-sub">Ask a question about any subject — explanations come step by step.</p>
+        <div class="card" style="padding:22px;max-width:760px;">
+          <div class="chat-log" id="chatLog" style="max-height:420px;overflow-y:auto;margin-bottom:16px;">
+            <div class="msg ai">Hi! I'm your AI Tutor. Ask me anything about your subjects, or paste in homework you're stuck on. 📘</div>
+          </div>
+          <form id="chatForm" class="flex gap-8">
+            <input type="text" id="chatInput" placeholder="Ask the AI Tutor…" required style="flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);">
+            <button class="icon-btn" type="button" id="micBtn" title="Speak your question"><i class="fa-solid fa-microphone"></i></button>
+            <button class="btn btn-navy" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </section>
+
+      <!-- EXAMS -->
+      <section class="dash-section hidden" id="sec-exams">
+        <h1 class="page-title">Exams</h1>
+        <p class="page-sub">Objective questions are graded instantly; theory answers are reviewed by your teacher.</p>
+        <div class="field" style="max-width:320px;"><label>Course</label><select id="examCourseSelect"></select></div>
+        <form id="examForm" class="mt-16" style="display:flex; flex-direction:column; gap:16px;"></form>
+        <button class="btn btn-gold mt-16" id="submitExamBtn">Submit Exam</button>
+        <div id="examResultBox" class="alert alert-success mt-16"></div>
+      </section>
+
+      <!-- GRADES -->
+      <section class="dash-section hidden" id="sec-grades">
+        <h1 class="page-title">Grades & Progress</h1>
+        <div class="grid grid-3 mb-24" id="gradesCards"></div>
+        <div class="card" style="padding:22px;"><canvas id="gradesChart" height="90"></canvas></div>
+      </section>
+
+      <!-- ACHIEVEMENTS -->
+      <section class="dash-section hidden" id="sec-achievements">
+        <h1 class="page-title">Badges & Achievements</h1>
+        <div class="grid grid-4" id="badgesGrid"></div>
+      </section>
+
+      <!-- LEADERBOARD -->
+      <section class="dash-section hidden" id="sec-leaderboard">
+        <h1 class="page-title">Class Leaderboard</h1>
+        <p class="page-sub">Ranked by XP among students who share your class level.</p>
+        <div class="card"><div class="table-wrap"><table class="data" id="leaderboardTable">
+          <thead><tr><th>Rank</th><th>Student</th><th>XP</th></tr></thead>
+          <tbody><tr><td colspan="3" class="text-center text-muted" style="padding:30px;">Loading…</td></tr></tbody>
+        </table></div></div>
+      </section>
+
+      <!-- CALENDAR -->
+      <section class="dash-section hidden" id="sec-calendar">
+        <h1 class="page-title">Calendar</h1>
+        <div class="card" style="padding:22px;">
+          <ul id="calendarList" style="display:flex;flex-direction:column;gap:14px;"></ul>
+        </div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="dash-section hidden" id="sec-profile">
+        <h1 class="page-title">My Profile</h1>
+        <div class="grid" style="grid-template-columns:1fr 340px;gap:24px;align-items:start;">
+        <div class="card" style="padding:24px;">
+          <div class="flex items-center gap-16 mb-24">
+            <div style="width:64px;height:64px;border-radius:50%;background:var(--royal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:700;" id="profileAvatar">S</div>
+            <div><div style="font-weight:700;font-size:1.1rem;" id="profileName">—</div><div class="text-muted" id="profileId">—</div></div>
+          </div>
+          <div class="field-row"><div class="field"><label>Class / Year level</label><input type="text" id="profileClass" disabled></div>
+          <div class="field"><label>Phone</label><input type="text" id="profilePhone" disabled></div></div>
+          <div class="field-row"><div class="field"><label>Gender</label><input type="text" id="profileGender" disabled></div>
+          <div class="field"><label>Date of birth</label><input type="text" id="profileDob" disabled></div></div>
+          <div class="field"><label>Parent / Guardian</label><input type="text" id="profileParent" disabled></div>
+        </div>
+        <div class="card" style="padding:22px;text-align:center;">
+          <h4 class="font-display mb-16" style="margin:0;">Digital ID Card</h4>
+          <div style="background:linear-gradient(160deg,var(--ink),var(--royal));border-radius:16px;padding:20px;color:#fff;">
+            <div id="idAvatar" style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 10px;">S</div>
+            <div id="idName" style="font-weight:700;">—</div>
+            <div id="idClass" class="text-muted" style="font-size:.78rem;color:#B9C4E0;margin-bottom:14px;">—</div>
+            <div id="idQr" style="background:#fff;border-radius:10px;display:inline-block;padding:8px;"></div>
+            <div id="idCode" style="margin-top:10px;font-size:.72rem;letter-spacing:.08em;color:#B9C4E0;">—</div>
+          </div>
+          <button class="btn btn-ghost btn-sm mt-16" id="downloadIdBtn"><i class="fa-solid fa-download"></i> Save as Image</button>
+        </div>
+        </div>
+      </section>
+
+      <!-- NOTIFICATIONS -->
+      <section class="dash-section hidden" id="sec-notifications">
+        <h1 class="page-title">Notifications</h1>
+        <div id="notificationsList" class="card" style="padding:8px;"></div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script type="module" src="student-dashboard.js"></script>
+</body>
+</html>

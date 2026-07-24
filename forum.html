@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forum & Live Chat — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="brand">
+      <span class="seal"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#1E3A8A"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <span class="side-label">Community</span>
+    <a class="side-link active" data-section="forum"><i class="fa-solid fa-comments"></i> Discussion Forum</a>
+    <a class="side-link" data-section="chat"><i class="fa-solid fa-message"></i> Live Chat</a>
+    <span class="side-label">Back</span>
+    <a class="side-link" id="backLink"><i class="fa-solid fa-arrow-left"></i> Back to Dashboard</a>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="flex items-center gap-12">
+        <button class="icon-btn sidebar-toggle" data-nav-toggle="#sidebar" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        <div style="font-weight:700;">Community</div>
+      </div>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+    </div>
+
+    <div class="content">
+
+      <!-- FORUM -->
+      <section class="dash-section" id="sec-forum">
+        <div class="flex justify-between items-center mb-16" style="flex-wrap:wrap;gap:12px;">
+          <div><h1 class="page-title" style="margin-bottom:2px;">Discussion Forum</h1><p class="page-sub" style="margin-bottom:0;">Ask, answer, and discuss — visible to everyone in your courses.</p></div>
+          <button class="btn btn-gold btn-sm" id="newPostBtn"><i class="fa-solid fa-plus"></i> New Post</button>
+        </div>
+        <div class="field" style="max-width:320px;"><label>Filter by course</label><select id="forumCourseFilter"><option value="">All my courses</option></select></div>
+        <div id="forumList" class="mt-16" style="display:flex;flex-direction:column;gap:16px;"></div>
+      </section>
+
+      <!-- LIVE CHAT -->
+      <section class="dash-section hidden" id="sec-chat">
+        <h1 class="page-title">Live Chat</h1>
+        <p class="page-sub">One chat room per course — messages sync in real time.</p>
+        <div class="field" style="max-width:320px;"><label>Course room</label><select id="chatCourseSelect"></select></div>
+        <div class="card mt-16" style="padding:18px;max-width:680px;">
+          <div id="chatMessages" style="max-height:420px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;margin-bottom:14px;"></div>
+          <form id="chatForm" class="flex gap-8">
+            <input type="text" id="chatInput" placeholder="Type a message…" required style="flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);">
+            <button class="btn btn-navy" type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: New forum post -->
+<div class="modal-backdrop" id="modalPost">
+  <div class="modal">
+    <div class="modal-head"><h3>New Discussion Post</h3><button class="modal-close" onclick="window.scUtils.closeModal('modalPost')"><i class="fa-solid fa-xmark"></i></button></div>
+    <form id="postForm">
+      <div class="field"><label>Course</label><select id="postCourse" required></select></div>
+      <div class="field"><label>Title</label><input type="text" id="postTitle" required></div>
+      <div class="field"><label>Message</label><textarea id="postBody" rows="4" required></textarea></div>
+      <button class="btn btn-gold btn-block" type="submit"><i class="fa-solid fa-paper-plane"></i> Post</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="forum.js"></script>
+</body>
+</html>
