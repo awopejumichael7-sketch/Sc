@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /index.html
+Allow: /style.css
+Disallow: /admin-dashboard.html
+Disallow: /teacher-dashboard.html
+Disallow: /student-dashboard.html
+Disallow: /firestore.rules
+Disallow: /storage.rules
+
+Sitemap: https://scholars-camp-lms.web.app/sitemap.xml
