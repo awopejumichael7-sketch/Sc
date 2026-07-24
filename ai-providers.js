@@ -6,9 +6,9 @@
    ========================================================================== */
 
 const PROVIDER_KEYS = {
-  gemini:     "AQ.Ab8RN6LmA5v6FVBnz_q94yxpQm2PeF3Qo035alF3iHqBFAqvUg",      // https://aistudio.google.com/app/apikey (free tier)
-  huggingface:"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", // https://huggingface.co/settings/tokens (free tier)
-  cloudflare: {                            // https://developers.cloudflare.com/workers-ai (free tier)
+  gemini:     "AQ.Ab8RN6LmA5v6FVBnz_q94yxpQm2PeF3Qo035alF3iHqBFAqvUg",      
+  huggingface:"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", 
+  cloudflare: {                            
     accountId: "36560eddb986830f2c527a35823debe6",
     apiToken:  "cfut_aSWlhwko1fVXXLhzokdFTyPJ4vHI1KbhsrDLtu9s09693b3c"
   },
