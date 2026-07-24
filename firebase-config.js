@@ -25,13 +25,13 @@ import { getMessaging, isSupported as messagingIsSupported, getToken, onMessage 
 
 /* ---------- 1. Project configuration (placeholder — swap in your keys) ---------- */
 export const firebaseConfig = {
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "scholars-camp-lms.firebaseapp.com",
-  projectId: "scholars-camp-lms",
-  storageBucket: "scholars-camp-lms.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
+  apiKey: "AIzaSyBDrTmYUQbwN4suwYSl0Jkoc7zElVnKj8c",
+    authDomain: "scholarscamp-d7f1b.firebaseapp.com",
+    projectId: "scholarscamp-d7f1b",
+    storageBucket: "scholarscamp-d7f1b.firebasestorage.app",
+    messagingSenderId: "878851187625",
+    appId: "1:878851187625:web:3c3ba2515aa27da2ee9ab8",
+    measurementId: "G-HDH4BQKG6J"
 };
 
 /* ---------- 2. Core service initialization ---------- */
