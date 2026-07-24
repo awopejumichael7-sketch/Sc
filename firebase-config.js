@@ -45,7 +45,7 @@ export { messaging };
 
 // >>> Get this from Firebase Console → Project settings → Cloud Messaging →
 // Web configuration → "Generate key pair" (Web Push certificate). <<<
-const VAPID_KEY = "YOUR_WEB_PUSH_VAPID_KEY";
+const VAPID_KEY = "BFYStQ8nC0VD2KwcK4vy7YpAv5q758xRBIqMj_4H_8W7BYdNzdREsi9yEgKF649htpUZUQKNE2zo7sEreqCycX4";
 
 /**
  * requestNotificationPermission — asks the browser for permission, retrieves
