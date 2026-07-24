@@ -11,12 +11,12 @@ importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js
 importScripts('https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging-compat.js');
 
 firebase.initializeApp({
-  apiKey: "YOUR_FIREBASE_API_KEY",
-  authDomain: "scholars-camp-lms.firebaseapp.com",
-  projectId: "scholars-camp-lms",
-  storageBucket: "scholars-camp-lms.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBDrTmYUQbwN4suwYSl0Jkoc7zElVnKj8c",
+  authDomain: "scholarscamp-d7f1b.firebaseapp.com",
+  projectId: "scholarscamp-d7f1b",
+  storageBucket: "scholarscamp-d7f1b.firebasestorage.app",
+  messagingSenderId: "878851187625",
+  appId: "1:878851187625:web:3c3ba2515aa27da2ee9ab8"
 });
 
 const messaging = firebase.messaging();
