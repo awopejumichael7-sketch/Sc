@@ -8,10 +8,10 @@
 const PROVIDER_KEYS = {
   gemini:     "AQ.Ab8RN6LmA5v6FVBnz_q94yxpQm2PeF3Qo035alF3iHqBFAqvUg",      
   huggingface:"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", 
-  cloudflare: {                            
+/*  cloudflare: {                            
     accountId: "36560eddb986830f2c527a35823debe6",
     apiToken:  "cfut_aSWlhwko1fVXXLhzokdFTyPJ4vHI1KbhsrDLtu9s09693b3c"
-  },
+  },*/
   ollamaUrl:  "http://localhost:11434"     // optional self-hosted fallback, only reachable on local networks
 };
 
