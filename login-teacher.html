@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teacher Login — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-side">
+    <div class="hero-glow" style="top:-100px;right:-100px;"></div>
+    <a href="index.html" class="brand" style="color:#fff; margin-bottom:40px;">
+      <span class="seal seal-spin"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#0B1E3F"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <h2 style="font-size:2rem; max-width:9ch; line-height:1.15;">Teach your subject, your way.</h2>
+    <p style="opacity:.85; max-width:38ch; margin-top:14px; line-height:1.6;">Upload materials, record sessions straight from your browser, set exams, and grade with built-in translation.</p>
+    <ul style="margin-top:34px; display:flex; flex-direction:column; gap:14px;">
+      <li class="flex items-center gap-12"><i class="fa-solid fa-video" style="color:#E8C766;"></i> Record live sessions automatically</li>
+      <li class="flex items-center gap-12"><i class="fa-solid fa-language" style="color:#E8C766;"></i> Grade theory answers, Yoruba included</li>
+      <li class="flex items-center gap-12"><i class="fa-solid fa-chalkboard-user" style="color:#E8C766;"></i> Manage every course assigned to you</li>
+    </ul>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <button class="icon-btn" data-theme-toggle style="margin-bottom:20px;" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+      <span class="role-pill"><i class="fa-solid fa-chalkboard-user"></i> Teacher</span>
+      <h2 class="font-display" style="margin:0 0 6px;">Welcome back, Educator</h2>
+      <p class="text-muted mb-24">Sign in with the Teacher ID and passcode issued by your administrator.</p>
+
+      <div id="loginAlert" class="alert alert-error"></div>
+
+      <form id="teacherLoginForm">
+        <div class="field">
+          <label>Teacher ID</label>
+          <input type="text" id="teacherId" required placeholder="SC-TCH-2026-014" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Passcode</label>
+          <input type="password" id="teacherPasscode" required placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <div class="flex justify-between items-center mb-16" style="font-size:.85rem;">
+          <label class="flex items-center gap-8"><input type="checkbox" id="rememberMe" checked style="width:auto;"> Remember me</label>
+          <a href="#" style="color:var(--royal); font-weight:600;" onclick="alert('Please contact your administrator to reset your passcode.'); return false;">Forgot passcode?</a>
+        </div>
+        <button class="btn btn-gold btn-block" type="submit" id="teacherSubmitBtn">Sign In <i class="fa-solid fa-arrow-right"></i></button>
+      </form>
+
+      <div class="auth-switch"><span>Not a teacher?</span> <a href="login-admin.html">Admin login</a> <span>·</span> <a href="login-student.html">Student login</a></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { bootCommon } from './app.js';
+  import { loginWithId } from './firebase-config.js';
+  bootCommon();
+
+  const form = document.getElementById('teacherLoginForm');
+  const alertBox = document.getElementById('loginAlert');
+  const submitBtn = document.getElementById('teacherSubmitBtn');
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    alertBox.classList.remove('show');
+    submitBtn.disabled = true; submitBtn.innerHTML = 'Signing in…';
+    try{
+      const id = document.getElementById('teacherId').value.trim();
+      const passcode = document.getElementById('teacherPasscode').value.trim();
+      const remember = document.getElementById('rememberMe').checked;
+      await loginWithId(id, passcode, 'teacher', remember);
+      window.location.href = 'teacher-dashboard.html';
+    }catch(err){
+      alertBox.textContent = 'Invalid Teacher ID or passcode. Please check your details and try again.';
+      alertBox.classList.add('show');
+      submitBtn.disabled = false; submitBtn.innerHTML = 'Sign In <i class="fa-solid fa-arrow-right"></i>';
+    }
+  });
+</script>
+</body>
+</html>

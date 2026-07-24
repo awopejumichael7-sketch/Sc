@@ -1,0 +1,28 @@
+rules_version = '2';
+
+// ==========================================================================
+// SCHOLAR'S CAMP LMS — STORAGE SECURITY RULES
+// Deploy with: firebase deploy --only storage
+// Mirrors Firestore's role model; also caps file size and enforces
+// content-type validation per upload folder (§30 "File validation").
+// ==========================================================================
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin()   { return isSignedIn() && firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid)); }
+    function isTeacher() { return isSignedIn() && firestore.exists(/databases/(default)/documents/teachers/$(request.auth.uid)); }
+
+    match /ebooks/{fileName}       { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 50 * 1024 * 1024; }
+    match /handbooks/{fileName}    { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 50 * 1024 * 1024; }
+    match /syllabus/{fileName}     { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 20 * 1024 * 1024; }
+    match /materials/{fileName}    { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 50 * 1024 * 1024; }
+    match /notes/{fileName}        { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 20 * 1024 * 1024; }
+    match /assignments/{fileName}  { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 20 * 1024 * 1024; }
+    match /audio/{fileName}        { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 100 * 1024 * 1024 && request.resource.contentType.matches('audio/.*'); }
+    match /videos/{fileName}       { allow read: if isSignedIn(); allow write: if (isAdmin() || isTeacher()) && request.resource.size < 500 * 1024 * 1024 && request.resource.contentType.matches('video/.*'); }
+    match /certificates/{fileName} { allow read: if isSignedIn(); allow write: if isAdmin() && request.resource.size < 10 * 1024 * 1024; }
+
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

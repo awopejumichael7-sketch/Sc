@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student Login — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-side">
+    <div class="hero-glow" style="top:-100px;right:-100px;"></div>
+    <a href="index.html" class="brand" style="color:#fff; margin-bottom:40px;">
+      <span class="seal seal-spin"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#0B1E3F"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <h2 style="font-size:2rem; max-width:9ch; line-height:1.15;">Welcome back, Scholar.</h2>
+    <p style="opacity:.85; max-width:38ch; margin-top:14px; line-height:1.6;">Pick up right where you left off — your books, classes, and AI tutor are all waiting.</p>
+    <ul style="margin-top:34px; display:flex; flex-direction:column; gap:14px;">
+      <li class="flex items-center gap-12"><i class="fa-solid fa-book-open" style="color:#E8C766;"></i> Offline-ready ebooks & handbook</li>
+      <li class="flex items-center gap-12"><i class="fa-solid fa-robot" style="color:#E8C766;"></i> A patient AI Tutor, day or night</li>
+      <li class="flex items-center gap-12"><i class="fa-solid fa-medal" style="color:#E8C766;"></i> Badges, XP, and class rankings</li>
+    </ul>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <button class="icon-btn" data-theme-toggle style="margin-bottom:20px;" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+      <span class="role-pill"><i class="fa-solid fa-graduation-cap"></i> Student</span>
+      <h2 class="font-display" style="margin:0 0 6px;">Enter the classroom</h2>
+      <p class="text-muted mb-24">Sign in with your Student ID and the phone number on file with your administrator.</p>
+
+      <div id="loginAlert" class="alert alert-error"></div>
+
+      <form id="studentLoginForm">
+        <div class="field">
+          <label>Student ID</label>
+          <input type="text" id="studentId" required placeholder="SC-STU-2026-0417" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Phone number</label>
+          <input type="tel" id="studentPhone" required placeholder="e.g. 08012345678" autocomplete="tel">
+          <div class="field-hint">The phone number your administrator registered for you.</div>
+        </div>
+        <div class="flex justify-between items-center mb-16" style="font-size:.85rem;">
+          <label class="flex items-center gap-8"><input type="checkbox" id="rememberMe" checked style="width:auto;"> Remember me</label>
+          <a href="#" style="color:var(--royal); font-weight:600;" onclick="alert('Please ask your administrator or teacher for help signing in.'); return false;">Need help?</a>
+        </div>
+        <button class="btn btn-gold btn-block" type="submit" id="studentSubmitBtn">Sign In <i class="fa-solid fa-arrow-right"></i></button>
+      </form>
+
+      <div class="auth-switch"><span>Not a student?</span> <a href="login-teacher.html">Teacher login</a> <span>·</span> <a href="login-admin.html">Admin login</a></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { bootCommon } from './app.js';
+  import { loginWithId } from './firebase-config.js';
+  bootCommon();
+
+  const form = document.getElementById('studentLoginForm');
+  const alertBox = document.getElementById('loginAlert');
+  const submitBtn = document.getElementById('studentSubmitBtn');
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    alertBox.classList.remove('show');
+    submitBtn.disabled = true; submitBtn.innerHTML = 'Signing in…';
+    try{
+      const id = document.getElementById('studentId').value.trim();
+      // The registered phone number doubles as the account secret, exactly as
+      // specified: "Students log in using Student ID and Phone Number".
+      const phone = document.getElementById('studentPhone').value.trim().replace(/\s+/g,'');
+      const remember = document.getElementById('rememberMe').checked;
+      await loginWithId(id, phone, 'student', remember);
+      window.location.href = 'student-dashboard.html';
+    }catch(err){
+      alertBox.textContent = 'We could not find a match for that Student ID and phone number.';
+      alertBox.classList.add('show');
+      submitBtn.disabled = false; submitBtn.innerHTML = 'Sign In <i class="fa-solid fa-arrow-right"></i>';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scholar's Camp LMS — Learn Without Limits</title>
+<meta name="description" content="Scholar's Camp is an AI-powered learning management system for Year 5–12, A Level, and Advanced students, with live classes, ebooks, and an AI tutor.">
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<header class="container">
+  <nav class="navbar">
+    <a href="index.html" class="brand">
+      <span class="seal seal-spin">
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5"/><circle cx="24" cy="24" r="14" fill="#1E3A8A"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg>
+      </span>
+      Scholar's Camp
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#subjects">Subjects</a></li>
+      <li><a href="#ai">AI Learning</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+      <a href="login-student.html" class="btn btn-ghost btn-sm">Log In</a>
+      <a href="login-admin.html" class="btn btn-gold btn-sm">Get Started</a>
+      <button class="icon-btn nav-toggle" data-nav-toggle="#mobileMenu" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </nav>
+  <div id="mobileMenu" class="card" style="display:none; padding:16px; margin-top:8px;">
+    <a href="#features" style="display:block;padding:10px 0;">Features</a>
+    <a href="#subjects" style="display:block;padding:10px 0;">Subjects</a>
+    <a href="#ai" style="display:block;padding:10px 0;">AI Learning</a>
+    <a href="#pricing" style="display:block;padding:10px 0;">Pricing</a>
+    <a href="#faq" style="display:block;padding:10px 0;">FAQ</a>
+    <a href="#contact" style="display:block;padding:10px 0;">Contact</a>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="hero container">
+  <div class="hero-glow"></div>
+  <div class="hero-grid">
+    <div class="reveal in">
+      <span class="eyebrow"><i class="fa-solid fa-award"></i> International-Standard LMS</span>
+      <h1>Where disciplined scholars <em>go further.</em></h1>
+      <p class="lead">Scholar's Camp brings ebooks, live classes, exams, and a personal AI tutor into one calm, luxury-grade classroom — built for Year 5 through Year 12, A Level, and Advanced students.</p>
+      <div class="hero-cta">
+        <a href="login-student.html" class="btn btn-gold">Enter the Classroom <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#ai" class="btn btn-ghost">See the AI Tutor</a>
+      </div>
+      <div class="hero-stats">
+        <div><b id="statStudents">12,400+</b><span>Active students</span></div>
+        <div><b id="statCourses">9</b><span>Core subjects</span></div>
+        <div><b id="statTeachers">380+</b><span>Verified teachers</span></div>
+        <div><b>Free</b><span>Always, for every scholar</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-panel">
+        <div class="flex items-center gap-8 mb-16">
+          <span class="seal" style="width:26px;height:26px;"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#0B1E3F"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+          <strong style="opacity:.9;">Today's Session — Physics, Year 11</strong>
+        </div>
+        <div class="card glass" style="padding:18px; color:#fff; margin-bottom:12px;">
+          <div class="flex justify-between items-center mb-8"><span>Momentum & Collisions</span><span class="badge badge-gold">Live in 12m</span></div>
+          <div class="progress"><div style="width:64%"></div></div>
+        </div>
+        <div class="grid" style="grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="card glass" style="padding:14px;color:#fff;"><i class="fa-solid fa-robot" style="color:#E8C766;"></i><div style="font-size:.8rem;margin-top:6px;">AI Tutor online</div></div>
+          <div class="card glass" style="padding:14px;color:#fff;"><i class="fa-solid fa-book-open" style="color:#E8C766;"></i><div style="font-size:.8rem;margin-top:6px;">14 ebooks synced</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FEATURES ===================== -->
+<section id="features" class="section container">
+  <div class="section-head reveal">
+    <span class="eyebrow">Everything in one seal</span>
+    <h2>A full campus, in your pocket</h2>
+    <p>Every tool a scholar, teacher, or administrator needs — installed like a native app, working even without signal.</p>
+  </div>
+  <div class="grid grid-4">
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-book"></i></div><h3>Ebooks & Handbooks</h3><p>Read syllabus-aligned books and handbooks with bookmarks and offline access.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-video"></i></div><h3>Live & Recorded Classes</h3><p>Join live teaching sessions or catch up with automatically saved recordings.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-robot"></i></div><h3>AI Tutor, always on</h3><p>Ask questions any hour of the day and get a patient, step-by-step explanation.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-file-circle-check"></i></div><h3>Exams & Instant Grades</h3><p>Sit objective and theory exams, then track results, certificates, and progress.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-chart-line"></i></div><h3>Real Analytics</h3><p>Administrators and teachers see attendance, weak topics, and engagement at a glance.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-shield-halved"></i></div><h3>Bank-Grade Security</h3><p>Role-based access, encrypted storage, and full audit logs protect every account.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-wifi"></i></div><h3>Offline-First</h3><p>Keep learning without data — everything syncs the moment you're back online.</p></div>
+    <div class="card card-hover feature-card reveal"><div class="ic"><i class="fa-solid fa-trophy"></i></div><h3>Badges & Rankings</h3><p>Earn XP, badges, and climb the class leaderboard as you complete your work.</p></div>
+  </div>
+</section>
+
+<!-- ===================== SUBJECTS ===================== -->
+<section id="subjects" class="section container" style="background:var(--surface-2); border-radius:28px;">
+  <div class="section-head reveal">
+    <span class="eyebrow">Year 5 – Year 12 · A Level · Advanced</span>
+    <h2>Nine subjects. One standard of excellence.</h2>
+    <p>Every subject dashboard is tagged to the right class level so content always matches where a student actually is.</p>
+  </div>
+  <div class="grid grid-4" style="padding:0 24px 24px;">
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-square-root-variable"></i></div><h4>Mathematics</h4><span>Yr5 – Advanced</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-feather-pointed"></i></div><h4>English</h4><span>Yr5 – Advanced</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-flask"></i></div><h4>Chemistry</h4><span>Yr9 – Advanced</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-atom"></i></div><h4>Physics</h4><span>Yr9 – Advanced</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-landmark"></i></div><h4>Government</h4><span>Yr10 – A Level</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-dna"></i></div><h4>Biology</h4><span>Yr9 – Advanced</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-coins"></i></div><h4>Economics</h4><span>Yr10 – A Level</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-laptop-code"></i></div><h4>Computer Studies</h4><span>Yr5 – Advanced</span></div>
+    <div class="card card-hover subject-card reveal"><div class="ic"><i class="fa-solid fa-calculator"></i></div><h4>Accounting</h4><span>Yr10 – A Level</span></div>
+  </div>
+</section>
+
+<!-- ===================== AI LEARNING ===================== -->
+<section id="ai" class="section container">
+  <div class="hero-grid">
+    <div class="reveal">
+      <span class="eyebrow"><i class="fa-solid fa-brain"></i> Free AI, always available</span>
+      <h2 style="font-size:clamp(1.8rem,3vw,2.4rem); margin:16px 0;">A tutor that never says "office hours are over."</h2>
+      <p class="text-muted" style="line-height:1.7;">The AI Tutor explains topics step by step, the Homework Assistant nudges with hints before showing full solutions, and teachers get an AI Exam Generator and Lesson Planner. If one free provider is busy, Scholar's Camp automatically switches to the next — Gemini, Hugging Face, or Cloudflare AI — so learning never stalls.</p>
+      <ul style="margin-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <li class="flex items-center gap-12"><i class="fa-solid fa-circle-check" style="color:var(--success);"></i> Step-by-step explanations, not just answers</li>
+        <li class="flex items-center gap-12"><i class="fa-solid fa-circle-check" style="color:var(--success);"></i> Speech-to-text and text-to-speech built in</li>
+        <li class="flex items-center gap-12"><i class="fa-solid fa-circle-check" style="color:var(--success);"></i> Translates study material, Yoruba included</li>
+      </ul>
+    </div>
+    <div class="card reveal" style="padding:22px;">
+      <div class="chat-log">
+        <div class="msg user">Can you explain projectile motion simply?</div>
+        <div class="msg ai">Think of throwing a ball: it moves forward at a steady pace, while gravity pulls it down a little more each second. Those two motions happen at the same time but don't affect each other. Want a worked example?</div>
+        <div class="msg user">Yes please 🙏</div>
+      </div>
+      <div class="field mt-16" style="margin-bottom:0;">
+        <div class="flex gap-8">
+          <input type="text" placeholder="Ask the AI Tutor anything…" disabled>
+          <button class="btn btn-navy btn-sm" disabled><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+        <div class="field-hint">Full AI Tutor is available after logging in.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="section container" style="background:var(--surface-2); border-radius:28px;">
+  <div class="section-head reveal">
+    <span class="eyebrow">Trusted by scholars & schools</span>
+    <h2>What the campus is saying</h2>
+  </div>
+  <div class="grid grid-3" style="padding:0 24px 24px;">
+    <div class="card testi-card reveal">
+      <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+      <p class="quote">My Year 11 daughter uses the AI Tutor for chemistry every evening — her grades moved up two bands this term.</p>
+      <div class="testi-user"><div class="testi-avatar">A.O.</div><div><strong style="font-size:.88rem;">Adaeze O.</strong><div class="text-muted" style="font-size:.78rem;">Parent</div></div></div>
+    </div>
+    <div class="card testi-card reveal">
+      <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+      <p class="quote">Grading theory answers with built-in Yoruba translation saves me hours every week.</p>
+      <div class="testi-user"><div class="testi-avatar">T.B.</div><div><strong style="font-size:.88rem;">Tunde B.</strong><div class="text-muted" style="font-size:.78rem;">Physics Teacher</div></div></div>
+    </div>
+    <div class="card testi-card reveal">
+      <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+      <p class="quote">Attendance, results, and certificates for every course, in one export — reporting finally takes minutes.</p>
+      <div class="testi-user"><div class="testi-avatar">F.K.</div><div><strong style="font-size:.88rem;">Funmi K.</strong><div class="text-muted" style="font-size:.78rem;">Administrator</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== STATS BAND ===================== -->
+<section class="stats-band">
+  <div class="container grid grid-4">
+    <div class="reveal"><b>12,400+</b><span>Students enrolled</span></div>
+    <div class="reveal"><b>380+</b><span>Verified teachers</span></div>
+    <div class="reveal"><b>96%</b><span>Course completion rate</span></div>
+    <div class="reveal"><b>4.9/5</b><span>Average satisfaction</span></div>
+  </div>
+</section>
+
+<!-- ===================== FAQ ===================== -->
+<section id="faq" class="section container" style="max-width:820px;">
+  <div class="section-head reveal">
+    <span class="eyebrow">Questions</span>
+    <h2>Frequently asked</h2>
+  </div>
+  <div class="reveal">
+    <div class="faq-item open">
+      <div class="faq-q">Is Scholar's Camp really free? <i class="fa-solid fa-chevron-down chev"></i></div>
+      <div class="faq-a">Yes. The entire platform runs on free-tier technology, and there is no paid plan required to use it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How do students get an account? <i class="fa-solid fa-chevron-down chev"></i></div>
+      <div class="faq-a">Only administrators create accounts. Each student receives a Student ID and a passcode, then logs in with their ID and registered phone number.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Does it work without internet? <i class="fa-solid fa-chevron-down chev"></i></div>
+      <div class="faq-a">Yes — install it like an app, and ebooks, the handbook, syllabus, and notes stay available offline. Everything syncs automatically once you're back online.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Which class levels are supported? <i class="fa-solid fa-chevron-down chev"></i></div>
+      <div class="faq-a">Year 5 through Year 12, plus A Level and Advanced students, across all nine subjects.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PRICING ===================== -->
+<section id="pricing" class="section container">
+  <div class="section-head reveal">
+    <span class="eyebrow">Pricing</span>
+    <h2>One plan. Everything included.</h2>
+  </div>
+  <div class="grid grid-3">
+    <div class="card price-card reveal"><h3>Student</h3><div class="amt">Free</div><ul>
+      <li><i class="fa-solid fa-check"></i> Full library access</li><li><i class="fa-solid fa-check"></i> Live & recorded classes</li><li><i class="fa-solid fa-check"></i> AI Tutor</li></ul>
+      <a href="login-student.html" class="btn btn-ghost btn-block">Student Login</a></div>
+    <div class="card price-card reveal" style="border:2px solid var(--gold); position:relative;">
+      <span class="eyebrow" style="position:absolute; top:-14px; left:50%; transform:translateX(-50%);">Most used</span>
+      <h3>Teacher</h3><div class="amt">Free</div><ul>
+      <li><i class="fa-solid fa-check"></i> Upload & broadcast tools</li><li><i class="fa-solid fa-check"></i> Grading & analytics</li><li><i class="fa-solid fa-check"></i> AI lesson planning</li></ul>
+      <a href="login-teacher.html" class="btn btn-gold btn-block">Teacher Login</a></div>
+    <div class="card price-card reveal"><h3>Administrator</h3><div class="amt">Free</div><ul>
+      <li><i class="fa-solid fa-check"></i> Unlimited courses</li><li><i class="fa-solid fa-check"></i> Full user management</li><li><i class="fa-solid fa-check"></i> Campus-wide analytics</li></ul>
+      <a href="login-admin.html" class="btn btn-ghost btn-block">Admin Login</a></div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT + NEWSLETTER ===================== -->
+<section id="contact" class="section container" style="background:var(--surface-2); border-radius:28px;">
+  <div class="hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Contact</span>
+      <h2 style="margin:16px 0;">Talk to the Scholar's Camp team</h2>
+      <p class="text-muted mb-24">Questions about onboarding a school or class? Send a message and an administrator will follow up.</p>
+      <form class="card" style="padding:24px;" onsubmit="event.preventDefault(); this.reset(); document.getElementById('contactOk').classList.add('show');">
+        <div class="field"><label>Full name</label><input type="text" required placeholder="Your name"></div>
+        <div class="field"><label>Email</label><input type="email" required placeholder="you@example.com"></div>
+        <div class="field"><label>Message</label><textarea rows="3" required placeholder="How can we help?"></textarea></div>
+        <div id="contactOk" class="alert alert-success">Message received — we'll be in touch shortly.</div>
+        <button class="btn btn-navy btn-block" type="submit">Send Message</button>
+      </form>
+    </div>
+    <div class="reveal">
+      <div class="card" style="padding:26px; margin-bottom:20px;">
+        <h4 class="font-display mb-8">Stay in the loop</h4>
+        <p class="text-muted" style="font-size:.9rem;">New subjects, features, and study tips — straight to your inbox.</p>
+        <form class="newsletter-form" style="filter:invert(0);" onsubmit="event.preventDefault(); this.reset(); alert('Subscribed! Welcome to Scholar\'s Camp.');">
+          <input type="email" required placeholder="Email address" style="background:var(--surface-2); color:var(--text); border:1px solid var(--line);">
+          <button class="btn btn-gold btn-sm" type="submit">Subscribe</button>
+        </form>
+      </div>
+      <div class="card" style="padding:26px;">
+        <h4 class="font-display mb-8">Install the app</h4>
+        <p class="text-muted mb-16" style="font-size:.9rem;">Add Scholar's Camp to your home screen for a native-app experience, online or off.</p>
+        <button class="btn btn-navy hidden" data-install-btn><i class="fa-solid fa-download"></i> Install App</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="site-footer">
+  <div class="container grid grid-4">
+    <div>
+      <div class="brand" style="color:#fff;">
+        <span class="seal" style="width:28px;height:28px;"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#0B1E3F"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+        Scholar's Camp
+      </div>
+      <p style="font-size:.85rem; margin-top:12px;">An AI-powered LMS for scholars from Year 5 through Advanced level — built free, forever.</p>
+    </div>
+    <div><h4>Platform</h4><a href="#features">Features</a><a href="#subjects">Subjects</a><a href="#ai">AI Learning</a><a href="#pricing">Pricing</a></div>
+    <div><h4>Access</h4><a href="login-student.html">Student Login</a><a href="login-teacher.html">Teacher Login</a><a href="login-admin.html">Admin Login</a></div>
+    <div><h4>Support</h4><a href="#faq">FAQ</a><a href="#contact">Contact Admin</a><a href="#">Help Center</a></div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© <span data-year></span> Scholar's Camp LMS. All rights reserved.</span>
+    <span>Blue · White · Gold — the mark of a disciplined scholar.</span>
+  </div>
+</footer>
+
+<script type="module">
+  import { bootCommon } from './app.js';
+  bootCommon();
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Administrator Login — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-side">
+    <div class="hero-glow" style="top:-100px;right:-100px;"></div>
+    <a href="index.html" class="brand" style="color:#fff; margin-bottom:40px;">
+      <span class="seal seal-spin"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#0B1E3F"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <h2 style="font-size:2rem; max-width:9ch; line-height:1.15;">The full campus is in your hands.</h2>
+    <p style="opacity:.85; max-width:38ch; margin-top:14px; line-height:1.6;">Create teachers and students, assign unlimited courses, and watch every metric roll in — from one seat.</p>
+    <ul style="margin-top:34px; display:flex; flex-direction:column; gap:14px;">
+      <li class="flex items-center gap-12"><i class="fa-solid fa-user-shield" style="color:#E8C766;"></i> Full role-based access control</li>
+      <li class="flex items-center gap-12"><i class="fa-solid fa-chart-pie" style="color:#E8C766;"></i> Campus-wide analytics & exports</li>
+      <li class="flex items-center gap-12"><i class="fa-solid fa-infinity" style="color:#E8C766;"></i> Unlimited courses, students & teachers</li>
+    </ul>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-box">
+      <button class="icon-btn" data-theme-toggle style="margin-bottom:20px;" aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+      <span class="role-pill"><i class="fa-solid fa-user-shield"></i> Administrator</span>
+      <h2 class="font-display" style="margin:0 0 6px;">Welcome back</h2>
+      <p class="text-muted mb-24">Sign in with your administrator email and password.</p>
+
+      <div id="loginAlert" class="alert alert-error"></div>
+
+      <form id="adminLoginForm">
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" id="adminEmail" required placeholder="admin@scholarscamp.app" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="adminPassword" required placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <div class="flex justify-between items-center mb-16" style="font-size:.85rem;">
+          <label class="flex items-center gap-8"><input type="checkbox" id="rememberMe" checked style="width:auto;"> Remember me</label>
+          <a href="#" id="forgotPasswordLink" style="color:var(--royal); font-weight:600;">Forgot password?</a>
+        </div>
+        <button class="btn btn-gold btn-block" type="submit" id="adminSubmitBtn">Sign In <i class="fa-solid fa-arrow-right"></i></button>
+      </form>
+
+      <div class="auth-switch"><span>Not an administrator?</span> <a href="login-teacher.html">Teacher login</a> <span>·</span> <a href="login-student.html">Student login</a></div>
+
+      <div class="card mt-24" style="padding:16px; font-size:.8rem;" class="text-muted">
+        <strong>Setting up for the first time?</strong> Create your first admin account directly in the Firebase Console (Authentication → Add user), then add a matching document to the <code>admins</code> collection in Firestore with that user's UID. See README.md.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { bootCommon } from './app.js';
+  import { loginAdmin, resetPasswordByEmail } from './firebase-config.js';
+  bootCommon();
+
+  const form = document.getElementById('adminLoginForm');
+  const alertBox = document.getElementById('loginAlert');
+  const submitBtn = document.getElementById('adminSubmitBtn');
+
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    alertBox.classList.remove('show');
+    submitBtn.disabled = true; submitBtn.innerHTML = 'Signing in…';
+    try{
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const remember = document.getElementById('rememberMe').checked;
+      await loginAdmin(email, password, remember);
+      window.location.href = 'admin-dashboard.html';
+    }catch(err){
+      alertBox.textContent = friendlyAuthError(err);
+      alertBox.classList.add('show');
+      submitBtn.disabled = false; submitBtn.innerHTML = 'Sign In <i class="fa-solid fa-arrow-right"></i>';
+    }
+  });
+
+  document.getElementById('forgotPasswordLink').addEventListener('click', async (e)=>{
+    e.preventDefault();
+    const email = document.getElementById('adminEmail').value.trim();
+    if(!email){ alertBox.textContent = 'Enter your email above first, then click "Forgot password?" again.'; alertBox.classList.add('show'); return; }
+    try{
+      await resetPasswordByEmail(email);
+      alertBox.className = 'alert alert-success show';
+      alertBox.textContent = 'Password reset email sent — check your inbox.';
+    }catch(err){
+      alertBox.className = 'alert alert-error show';
+      alertBox.textContent = friendlyAuthError(err);
+    }
+  });
+
+  function friendlyAuthError(err){
+    const code = err?.code || '';
+    if(code.includes('user-not-found') || code.includes('invalid-credential')) return 'No account found with those credentials.';
+    if(code.includes('wrong-password')) return 'Incorrect password. Please try again.';
+    if(code.includes('too-many-requests')) return 'Too many attempts. Please wait a moment and try again.';
+    if(code.includes('network-request-failed')) return 'Network error — check your connection and try again.';
+    return 'Sign-in failed. Please check your details and try again.';
+  }
+</script>
+</body>
+</html>

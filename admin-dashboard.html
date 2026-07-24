@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Administrator Dashboard — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- ===================== SIDEBAR ===================== -->
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="brand">
+      <span class="seal"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#1E3A8A"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <span class="side-label">Overview</span>
+    <a class="side-link active" data-section="overview"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <a class="side-link" data-section="analytics"><i class="fa-solid fa-chart-line"></i> Analytics</a>
+    <span class="side-label">People</span>
+    <a class="side-link" data-section="students"><i class="fa-solid fa-user-graduate"></i> Students</a>
+    <a class="side-link" data-section="teachers"><i class="fa-solid fa-chalkboard-user"></i> Teachers</a>
+    <span class="side-label">Academics</span>
+    <a class="side-link" data-section="courses"><i class="fa-solid fa-layer-group"></i> Courses</a>
+    <a class="side-link" data-section="materials"><i class="fa-solid fa-cloud-arrow-up"></i> Uploads</a>
+    <a class="side-link" data-section="announcements"><i class="fa-solid fa-bullhorn"></i> Announcements</a>
+    <a class="side-link" data-section="reports"><i class="fa-solid fa-file-export"></i> Reports</a>
+    <span class="side-label">System</span>
+    <a class="side-link" data-section="settings"><i class="fa-solid fa-gear"></i> Settings</a>
+    <a class="side-link" id="logoutLink"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+  </aside>
+
+  <div class="main">
+    <!-- ===================== TOPBAR ===================== -->
+    <div class="topbar">
+      <div class="flex items-center gap-12">
+        <button class="icon-btn sidebar-toggle" data-nav-toggle="#sidebar" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        <div>
+          <div style="font-weight:700;">Administrator Console</div>
+          <div class="text-muted" style="font-size:.78rem;" id="welcomeLine">Welcome back</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-12">
+        <input type="text" id="globalSearch" placeholder="Search students, teachers, courses…" style="padding:9px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);width:260px;">
+        <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ===================== OVERVIEW ===================== -->
+      <section class="dash-section" id="sec-overview">
+        <h1 class="page-title">Campus Overview</h1>
+        <p class="page-sub">A live snapshot of Scholar's Camp — students, teachers, courses, and engagement.</p>
+        <div class="grid grid-4 mb-24">
+          <div class="card stat-tile"><div class="ic" style="background:rgba(30,58,138,.1);color:var(--royal);"><i class="fa-solid fa-user-graduate"></i></div><div><div class="n" id="statTotalStudents">–</div><div class="l">Total Students</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(201,162,39,.15);color:var(--warn);"><i class="fa-solid fa-chalkboard-user"></i></div><div><div class="n" id="statTotalTeachers">–</div><div class="l">Total Teachers</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(31,157,85,.12);color:var(--success);"><i class="fa-solid fa-layer-group"></i></div><div><div class="n" id="statTotalCourses">–</div><div class="l">Total Courses</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(192,57,43,.1);color:var(--danger);"><i class="fa-solid fa-bullhorn"></i></div><div><div class="n" id="statTotalAnnouncements">–</div><div class="l">Announcements</div></div></div>
+        </div>
+        <div class="grid" style="grid-template-columns:2fr 1fr;">
+          <div class="card" style="padding:22px;">
+            <div class="flex justify-between items-center mb-16"><h3 style="margin:0;font-size:1rem;">Enrollment growth</h3></div>
+            <canvas id="overviewChart" height="120"></canvas>
+          </div>
+          <div class="card" style="padding:22px;">
+            <h3 style="margin:0 0 16px;font-size:1rem;">Recent activity</h3>
+            <ul id="activityFeed" style="display:flex;flex-direction:column;gap:14px;font-size:.85rem;">
+              <li class="text-muted">No activity logged yet.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== ANALYTICS ===================== -->
+      <section class="dash-section hidden" id="sec-analytics">
+        <h1 class="page-title">Analytics</h1>
+        <p class="page-sub">Attendance, performance, and platform engagement across the whole campus.</p>
+        <div class="grid grid-3 mb-24">
+          <div class="card" style="padding:20px;"><h3 style="margin:0 0 14px;font-size:.92rem;">Attendance by course</h3><canvas id="attendanceChart"></canvas></div>
+          <div class="card" style="padding:20px;"><h3 style="margin:0 0 14px;font-size:.92rem;">Students per class level</h3><canvas id="levelChart"></canvas></div>
+          <div class="card" style="padding:20px;"><h3 style="margin:0 0 14px;font-size:.92rem;">Weekly active users</h3><canvas id="wauChart"></canvas></div>
+        </div>
+        <div class="card" style="padding:20px;">
+          <div class="flex justify-between items-center mb-16">
+            <h3 style="margin:0;font-size:.92rem;">Exam performance by subject</h3>
+            <button class="btn btn-ghost btn-sm" id="exportAnalyticsBtn"><i class="fa-solid fa-file-arrow-down"></i> Export PDF</button>
+          </div>
+          <canvas id="examChart" height="90"></canvas>
+        </div>
+      </section>
+
+      <!-- ===================== STUDENTS ===================== -->
+      <section class="dash-section hidden" id="sec-students">
+        <div class="flex justify-between items-center mb-16" style="flex-wrap:wrap;gap:12px;">
+          <div><h1 class="page-title" style="margin-bottom:2px;">Students</h1><p class="page-sub" style="margin-bottom:0;">Create, edit, deactivate, or archive student accounts.</p></div>
+          <div class="flex gap-8">
+            <button class="btn btn-ghost btn-sm" id="exportStudentsCsv"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+            <button class="btn btn-gold btn-sm" id="addStudentBtn"><i class="fa-solid fa-plus"></i> Add Student</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data" id="studentsTable">
+              <thead><tr><th>ID</th><th>Name</th><th>Class Level</th><th>Phone</th><th>Status</th><th>Courses</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="7" class="text-center text-muted" style="padding:30px;">Loading students…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== TEACHERS ===================== -->
+      <section class="dash-section hidden" id="sec-teachers">
+        <div class="flex justify-between items-center mb-16" style="flex-wrap:wrap;gap:12px;">
+          <div><h1 class="page-title" style="margin-bottom:2px;">Teachers</h1><p class="page-sub" style="margin-bottom:0;">Create teacher accounts and assign the courses they'll manage.</p></div>
+          <div class="flex gap-8">
+            <button class="btn btn-ghost btn-sm" id="exportTeachersCsv"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+            <button class="btn btn-gold btn-sm" id="addTeacherBtn"><i class="fa-solid fa-plus"></i> Add Teacher</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data" id="teachersTable">
+              <thead><tr><th>ID</th><th>Name</th><th>Assigned Courses</th><th>Phone</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="6" class="text-center text-muted" style="padding:30px;">Loading teachers…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== COURSES ===================== -->
+      <section class="dash-section hidden" id="sec-courses">
+        <div class="flex justify-between items-center mb-16" style="flex-wrap:wrap;gap:12px;">
+          <div><h1 class="page-title" style="margin-bottom:2px;">Courses</h1><p class="page-sub" style="margin-bottom:0;">No limit on how many courses you can create.</p></div>
+          <button class="btn btn-gold btn-sm" id="addCourseBtn"><i class="fa-solid fa-plus"></i> Add Course</button>
+        </div>
+        <div class="grid grid-3" id="coursesGrid">
+          <div class="card" style="padding:40px;text-align:center;" class="text-muted">Loading courses…</div>
+        </div>
+      </section>
+
+      <!-- ===================== UPLOADS / MATERIALS ===================== -->
+      <section class="dash-section hidden" id="sec-materials">
+        <h1 class="page-title">Uploads</h1>
+        <p class="page-sub">Books, audio, video, exam questions, syllabus, handbooks, assignments, and certificates.</p>
+        <div class="card" style="padding:22px;" class="mb-24">
+          <form id="uploadForm" class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:end;">
+            <div class="field" style="margin-bottom:0;"><label>Material type</label>
+              <select id="uploadType" required>
+                <option value="ebooks">Ebook</option><option value="audio">Audio</option><option value="videos">Video</option>
+                <option value="syllabus">Syllabus</option><option value="handbooks">Handbook</option><option value="assignments">Assignment</option>
+                <option value="examQuestions">Exam Questions</option><option value="announcements">Announcement Attachment</option><option value="certificates">Certificate</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:0;"><label>Course</label><select id="uploadCourse"><option value="">General / All courses</option></select></div>
+            <div class="field" style="margin-bottom:0;"><label>File</label><input type="file" id="uploadFile" required></div>
+            <div class="field" style="margin-bottom:0; grid-column:1/-1;"><label>Title</label><input type="text" id="uploadTitle" required placeholder="e.g. Year 11 Physics Handbook"></div>
+            <div style="grid-column:1/-1;">
+              <div class="progress hidden" id="uploadProgressWrap"><div id="uploadProgressBar" style="width:0%"></div></div>
+              <button class="btn btn-navy mt-16" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="table-wrap">
+            <table class="data" id="materialsTable">
+              <thead><tr><th>Title</th><th>Type</th><th>Course</th><th>Uploaded</th><th>Actions</th></tr></thead>
+              <tbody><tr><td colspan="5" class="text-center text-muted" style="padding:30px;">No uploads yet.</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== ANNOUNCEMENTS ===================== -->
+      <section class="dash-section hidden" id="sec-announcements">
+        <div class="flex justify-between items-center mb-16">
+          <div><h1 class="page-title" style="margin-bottom:2px;">Announcements</h1><p class="page-sub" style="margin-bottom:0;">Push a notice to every student and teacher.</p></div>
+          <button class="btn btn-gold btn-sm" id="addAnnouncementBtn"><i class="fa-solid fa-plus"></i> New Announcement</button>
+        </div>
+        <div id="announcementsList" class="grid grid-3"></div>
+      </section>
+
+      <!-- ===================== REPORTS ===================== -->
+      <section class="dash-section hidden" id="sec-reports">
+        <h1 class="page-title">Reports</h1>
+        <p class="page-sub">Export attendance, results, and feedback reports to PDF or Excel-compatible CSV.</p>
+        <div class="grid grid-3">
+          <div class="card" style="padding:24px;"><i class="fa-solid fa-calendar-check" style="color:var(--royal);font-size:1.4rem;"></i><h3 style="margin:14px 0 8px;font-size:1rem;">Attendance Report</h3><p class="text-muted" style="font-size:.85rem;">Export attendance across every course.</p><button class="btn btn-ghost btn-sm mt-8" onclick="window.scReports.attendance()">Export</button></div>
+          <div class="card" style="padding:24px;"><i class="fa-solid fa-chart-simple" style="color:var(--royal);font-size:1.4rem;"></i><h3 style="margin:14px 0 8px;font-size:1rem;">Results Report</h3><p class="text-muted" style="font-size:.85rem;">Grades and exam results by student.</p><button class="btn btn-ghost btn-sm mt-8" onclick="window.scReports.results()">Export</button></div>
+          <div class="card" style="padding:24px;"><i class="fa-solid fa-comment-dots" style="color:var(--royal);font-size:1.4rem;"></i><h3 style="margin:14px 0 8px;font-size:1rem;">Feedback Report</h3><p class="text-muted" style="font-size:.85rem;">All student feedback submissions.</p><button class="btn btn-ghost btn-sm mt-8" onclick="window.scReports.feedback()">Export</button></div>
+        </div>
+      </section>
+
+      <!-- ===================== SETTINGS ===================== -->
+      <section class="dash-section hidden" id="sec-settings">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-sub">Website, AI provider, and role/permission configuration.</p>
+        <div class="tabs" data-tab-group="settingsTabs">
+          <button class="tab-btn active" data-tab-target="tabWebsite">Website</button>
+          <button class="tab-btn" data-tab-target="tabAi">AI Providers</button>
+          <button class="tab-btn" data-tab-target="tabRoles">Roles & Permissions</button>
+          <button class="tab-btn" data-tab-target="tabLogs">Audit Logs</button>
+        </div>
+        <div data-tab-panel-group="settingsTabs">
+          <div class="tab-panel active" id="tabWebsite">
+            <div class="card" style="padding:22px;max-width:520px;">
+              <div class="field"><label>Site name</label><input type="text" value="Scholar's Camp LMS"></div>
+              <div class="field"><label>Support email</label><input type="email" value="support@scholarscamp.app"></div>
+              <div class="field"><label>Default language</label><select><option>English</option><option>Yoruba</option></select></div>
+              <button class="btn btn-navy btn-sm" onclick="window.scUtils.toast('Settings saved.','success')">Save Settings</button>
+            </div>
+          </div>
+          <div class="tab-panel" id="tabAi">
+            <div class="card" style="padding:22px;max-width:640px;">
+              <p class="text-muted mb-16" style="font-size:.88rem;">Provider keys are configured in <code>ai-providers.js</code>. The system automatically fails over in this order:</p>
+              <ol style="padding-left:20px; display:flex; flex-direction:column; gap:8px; font-size:.9rem;">
+                <li>1. Google Gemini (free tier)</li><li>2. Hugging Face Inference API (free tier)</li><li>3. Cloudflare Workers AI (free tier)</li><li>4. Ollama (self-hosted, optional)</li>
+              </ol>
+            </div>
+          </div>
+          <div class="tab-panel" id="tabRoles">
+            <div class="card" style="padding:22px;">
+              <table class="data"><thead><tr><th>Role</th><th>Manage Users</th><th>Manage Courses</th><th>Grade Exams</th><th>View Analytics</th></tr></thead>
+              <tbody>
+                <tr><td>Administrator</td><td><i class="fa-solid fa-check" style="color:var(--success);"></i></td><td><i class="fa-solid fa-check" style="color:var(--success);"></i></td><td><i class="fa-solid fa-check" style="color:var(--success);"></i></td><td><i class="fa-solid fa-check" style="color:var(--success);"></i></td></tr>
+                <tr><td>Teacher</td><td>—</td><td>Assigned only</td><td><i class="fa-solid fa-check" style="color:var(--success);"></i></td><td>Class only</td></tr>
+                <tr><td>Student</td><td>—</td><td>—</td><td>—</td><td>Own progress</td></tr>
+              </tbody></table>
+            </div>
+          </div>
+          <div class="tab-panel" id="tabLogs">
+            <div class="card" id="logsCard"><div class="table-wrap"><table class="data" id="logsTable"><thead><tr><th>Time</th><th>Actor</th><th>Action</th></tr></thead><tbody><tr><td colspan="3" class="text-center text-muted" style="padding:24px;">No logs yet this session.</td></tr></tbody></table></div></div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MODAL: Add/Edit Student ===================== -->
+<div class="modal-backdrop" id="modalStudent">
+  <div class="modal">
+    <div class="modal-head"><h3 id="studentModalTitle">Add Student</h3><button class="modal-close" onclick="window.scUtils.closeModal('modalStudent')"><i class="fa-solid fa-xmark"></i></button></div>
+    <form id="studentForm">
+      <input type="hidden" id="studentDocId">
+      <div class="field-row"><div class="field"><label>Full name</label><input type="text" id="sFullName" required></div>
+      <div class="field"><label>Class / Year level</label><select id="sClassLevel" required>
+        <option>Year 5</option><option>Year 6</option><option>Year 7</option><option>Year 8</option><option>Year 9</option><option>Year 10</option><option>Year 11</option><option>Year 12</option><option>A Level</option><option>Advanced</option>
+      </select></div></div>
+      <div class="field-row"><div class="field"><label>Phone number</label><input type="tel" id="sPhone" required placeholder="Doubles as login credential"></div>
+      <div class="field"><label>Email (optional)</label><input type="email" id="sEmail"></div></div>
+      <div class="field-row"><div class="field"><label>Gender</label><select id="sGender"><option>Female</option><option>Male</option></select></div>
+      <div class="field"><label>Date of birth</label><input type="date" id="sDob"></div></div>
+      <div class="field"><label>Parent / Guardian info</label><input type="text" id="sParent" placeholder="Name & phone number"></div>
+      <div class="field"><label>Enroll in courses</label><select id="sCourses" multiple size="4"></select><div class="field-hint">Ctrl/Cmd-click to select multiple — or select all to enroll in every course.</div></div>
+      <div id="generatedIdBox" class="alert alert-success" style="display:none;"></div>
+      <button class="btn btn-gold btn-block" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Student</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: Add/Edit Teacher ===================== -->
+<div class="modal-backdrop" id="modalTeacher">
+  <div class="modal">
+    <div class="modal-head"><h3 id="teacherModalTitle">Add Teacher</h3><button class="modal-close" onclick="window.scUtils.closeModal('modalTeacher')"><i class="fa-solid fa-xmark"></i></button></div>
+    <form id="teacherForm">
+      <input type="hidden" id="teacherDocId">
+      <div class="field-row"><div class="field"><label>Full name</label><input type="text" id="tFullName" required></div>
+      <div class="field"><label>Phone number</label><input type="tel" id="tPhone" required></div></div>
+      <div class="field"><label>Email (optional)</label><input type="email" id="tEmail"></div>
+      <div class="field"><label>Assign courses</label><select id="tCourses" multiple size="5"></select><div class="field-hint">A teacher may be assigned more than one course.</div></div>
+      <div id="generatedTeacherIdBox" class="alert alert-success" style="display:none;"></div>
+      <button class="btn btn-gold btn-block" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Teacher</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: Add/Edit Course ===================== -->
+<div class="modal-backdrop" id="modalCourse">
+  <div class="modal">
+    <div class="modal-head"><h3 id="courseModalTitle">Add Course</h3><button class="modal-close" onclick="window.scUtils.closeModal('modalCourse')"><i class="fa-solid fa-xmark"></i></button></div>
+    <form id="courseForm">
+      <input type="hidden" id="courseDocId">
+      <div class="field"><label>Course title</label><input type="text" id="cTitle" required placeholder="e.g. Physics — Year 11"></div>
+      <div class="field-row"><div class="field"><label>Subject</label><select id="cSubject" required>
+        <option>Mathematics</option><option>English</option><option>Chemistry</option><option>Physics</option><option>Government</option><option>Biology</option><option>Economics</option><option>Computer Studies</option><option>Accounting</option>
+      </select></div>
+      <div class="field"><label>Class / Year level</label><select id="cClassLevel" required>
+        <option>Year 5</option><option>Year 6</option><option>Year 7</option><option>Year 8</option><option>Year 9</option><option>Year 10</option><option>Year 11</option><option>Year 12</option><option>A Level</option><option>Advanced</option>
+      </select></div></div>
+      <div class="field"><label>Description</label><textarea id="cDescription" rows="3"></textarea></div>
+      <button class="btn btn-gold btn-block" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Course</button>
+    </form>
+  </div>
+</div>
+
+<!-- ===================== MODAL: Announcement ===================== -->
+<div class="modal-backdrop" id="modalAnnouncement">
+  <div class="modal">
+    <div class="modal-head"><h3>New Announcement</h3><button class="modal-close" onclick="window.scUtils.closeModal('modalAnnouncement')"><i class="fa-solid fa-xmark"></i></button></div>
+    <form id="announcementForm">
+      <div class="field"><label>Title</label><input type="text" id="aTitle" required></div>
+      <div class="field"><label>Message</label><textarea id="aMessage" rows="4" required></textarea></div>
+      <div class="field"><label>Audience</label><select id="aAudience"><option value="all">Everyone</option><option value="students">Students only</option><option value="teachers">Teachers only</option></select></div>
+      <button class="btn btn-gold btn-block" type="submit"><i class="fa-solid fa-bullhorn"></i> Publish & Notify</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="admin-dashboard.js"></script>
+</body>
+</html>

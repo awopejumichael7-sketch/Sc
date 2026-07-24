@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teacher Dashboard — Scholar's Camp LMS</title>
+<meta name="theme-color" content="#0B1E3F">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.3/chart.umd.min.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar">
+    <a href="index.html" class="brand">
+      <span class="seal"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" stroke="#C9A227" stroke-width="2.5" fill="none"/><circle cx="24" cy="24" r="14" fill="#1E3A8A"/><text x="24" y="29" text-anchor="middle" font-family="Fraunces,serif" font-weight="700" font-size="13" fill="#E8C766">SC</text></svg></span>
+      Scholar's Camp
+    </a>
+    <span class="side-label">Teaching</span>
+    <a class="side-link active" data-section="overview"><i class="fa-solid fa-gauge"></i> Dashboard</a>
+    <a class="side-link" data-section="courses"><i class="fa-solid fa-layer-group"></i> My Courses</a>
+    <a class="side-link" data-section="materials"><i class="fa-solid fa-cloud-arrow-up"></i> Uploads</a>
+    <a class="side-link" data-section="live"><i class="fa-solid fa-video"></i> Record Session</a>
+    <span class="side-label">Class Management</span>
+    <a class="side-link" data-section="attendance"><i class="fa-solid fa-clipboard-check"></i> Attendance</a>
+    <a class="side-link" data-section="exams"><i class="fa-solid fa-file-pen"></i> Exam Questions</a>
+    <a class="side-link" data-section="grading"><i class="fa-solid fa-language"></i> Grade Theory Answers</a>
+    <a class="side-link" data-section="students"><i class="fa-solid fa-user-graduate"></i> My Students</a>
+    <a class="side-link" data-section="feedback"><i class="fa-solid fa-comment-dots"></i> Feedback & Questions</a>
+    <span class="side-label">System</span>
+    <a class="side-link" id="logoutLink"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="flex items-center gap-12">
+        <button class="icon-btn sidebar-toggle" data-nav-toggle="#sidebar" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+        <div><div style="font-weight:700;">Teacher Console</div><div class="text-muted" style="font-size:.78rem;" id="welcomeLine">Welcome back</div></div>
+      </div>
+      <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode"><i class="fa-solid fa-moon" data-theme-icon></i></button>
+    </div>
+
+    <div class="content">
+
+      <!-- OVERVIEW -->
+      <section class="dash-section" id="sec-overview">
+        <h1 class="page-title">Welcome back</h1>
+        <p class="page-sub">Here's how your assigned courses are doing.</p>
+        <div class="grid grid-4 mb-24">
+          <div class="card stat-tile"><div class="ic" style="background:rgba(30,58,138,.1);color:var(--royal);"><i class="fa-solid fa-layer-group"></i></div><div><div class="n" id="statMyCourses">–</div><div class="l">My Courses</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(201,162,39,.15);color:var(--warn);"><i class="fa-solid fa-user-graduate"></i></div><div><div class="n" id="statMyStudents">–</div><div class="l">My Students</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(31,157,85,.12);color:var(--success);"><i class="fa-solid fa-file-circle-question"></i></div><div><div class="n" id="statUngraded">–</div><div class="l">Ungraded Answers</div></div></div>
+          <div class="card stat-tile"><div class="ic" style="background:rgba(192,57,43,.1);color:var(--danger);"><i class="fa-solid fa-comment-dots"></i></div><div><div class="n" id="statFeedback">–</div><div class="l">New Feedback</div></div></div>
+        </div>
+        <div class="card" style="padding:22px;">
+          <h3 style="margin:0 0 16px;font-size:1rem;">Attendance across my courses</h3>
+          <canvas id="teacherChart" height="90"></canvas>
+        </div>
+      </section>
+
+      <!-- MY COURSES -->
+      <section class="dash-section hidden" id="sec-courses">
+        <h1 class="page-title">My Courses</h1>
+        <p class="page-sub">Only courses your administrator has assigned to you appear here.</p>
+        <div class="grid grid-3" id="myCoursesGrid"></div>
+      </section>
+
+      <!-- UPLOADS -->
+      <section class="dash-section hidden" id="sec-materials">
+        <h1 class="page-title">Uploads</h1>
+        <p class="page-sub">Ebooks, handbook, syllabus, teaching materials, lesson notes, assignments, audio.</p>
+        <div class="card" style="padding:22px;" class="mb-24">
+          <form id="uploadForm" class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:end;">
+            <div class="field" style="margin-bottom:0;"><label>Material type</label>
+              <select id="uploadType" required>
+                <option value="ebooks">Ebook</option><option value="handbooks">Handbook</option><option value="syllabus">Syllabus</option>
+                <option value="materials">Teaching Material</option><option value="notes">Lesson Notes</option><option value="assignments">Assignment</option><option value="audio">Audio Teaching</option>
+              </select>
+            </div>
+            <div class="field" style="margin-bottom:0;"><label>Course</label><select id="uploadCourse" required></select></div>
+            <div class="field" style="margin-bottom:0;"><label>File</label><input type="file" id="uploadFile" required></div>
+            <div class="field" style="margin-bottom:0; grid-column:1/-1;"><label>Title</label><input type="text" id="uploadTitle" required></div>
+            <div style="grid-column:1/-1;">
+              <div class="progress hidden" id="uploadProgressWrap"><div id="uploadProgressBar" style="width:0%"></div></div>
+              <button class="btn btn-navy mt-16" type="submit"><i class="fa-solid fa-cloud-arrow-up"></i> Upload</button>
+            </div>
+          </form>
+        </div>
+        <div class="card">
+          <div class="table-wrap"><table class="data" id="materialsTable">
+            <thead><tr><th>Title</th><th>Type</th><th>Course</th><th>Actions</th></tr></thead>
+            <tbody><tr><td colspan="4" class="text-center text-muted" style="padding:30px;">No uploads yet.</td></tr></tbody>
+          </table></div>
+        </div>
+      </section>
+
+      <!-- RECORD SESSION -->
+      <section class="dash-section hidden" id="sec-live">
+        <h1 class="page-title">Record a Teaching Session</h1>
+        <p class="page-sub">Turn your camera/microphone on and record directly from your browser — no extra software.</p>
+        <div class="grid" style="grid-template-columns:2fr 1fr;">
+          <div class="card" style="padding:22px;">
+            <video id="livePreview" autoplay muted playsinline style="width:100%;border-radius:12px;background:#000;aspect-ratio:16/9;object-fit:cover;"></video>
+            <div class="flex gap-8 mt-16" style="flex-wrap:wrap;">
+              <button class="btn btn-navy btn-sm" id="camToggle"><i class="fa-solid fa-video"></i> Camera</button>
+              <button class="btn btn-navy btn-sm" id="micToggle"><i class="fa-solid fa-microphone"></i> Microphone</button>
+              <button class="btn btn-gold btn-sm" id="recStart"><i class="fa-solid fa-circle"></i> Start Recording</button>
+              <button class="btn btn-danger btn-sm hidden" id="recStop"><i class="fa-solid fa-stop"></i> End Session & Save</button>
+            </div>
+            <p class="field-hint mt-16" id="recStatus">Recording will save automatically to this course's course materials when you end the session. Students can stream it — downloading is disabled.</p>
+          </div>
+          <div class="card" style="padding:22px;">
+            <label style="font-size:.82rem;font-weight:600;color:var(--text-muted);">Course for this session</label>
+            <select id="liveCourse" class="mt-8" style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--text);"></select>
+            <div class="mt-24">
+              <h4 class="font-display" style="margin:0 0 8px;">Past recordings</h4>
+              <ul id="recordingsList" style="display:flex;flex-direction:column;gap:8px;font-size:.85rem;"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ATTENDANCE -->
+      <section class="dash-section hidden" id="sec-attendance">
+        <h1 class="page-title">Mark Attendance</h1>
+        <div class="card" style="padding:22px;">
+          <div class="field-row mb-16">
+            <div class="field" style="margin-bottom:0;"><label>Course</label><select id="attCourse"></select></div>
+            <div class="field" style="margin-bottom:0;"><label>Date</label><input type="date" id="attDate"></div>
+          </div>
+          <div id="attendanceList" class="table-wrap"></div>
+          <button class="btn btn-gold mt-16" id="saveAttendanceBtn"><i class="fa-solid fa-floppy-disk"></i> Save Attendance</button>
+        </div>
+      </section>
+
+      <!-- EXAM QUESTIONS -->
+      <section class="dash-section hidden" id="sec-exams">
+        <div class="flex justify-between items-center mb-16">
+          <div><h1 class="page-title" style="margin-bottom:2px;">Exam Questions</h1><p class="page-sub" style="margin-bottom:0;">Set objective or theory questions for your assigned courses.</p></div>
+          <button class="btn btn-gold btn-sm" id="addQuestionBtn"><i class="fa-solid fa-plus"></i> Add Question</button>
+        </div>
+        <div class="field" style="max-width:320px;"><label>Filter by course</label><select id="examCourseFilter"></select></div>
+        <div class="card mt-16"><div class="table-wrap"><table class="data" id="examTable">
+          <thead><tr><th>Question</th><th>Type</th><th>Course</th><th>Actions</th></tr></thead>
+          <tbody><tr><td colspan="4" class="text-center text-muted" style="padding:30px;">No questions yet.</td></tr></tbody>
+        </table></div></div>
+      </section>
+
+      <!-- GRADING -->
+      <section class="dash-section hidden" id="sec-grading">
+        <h1 class="page-title">Grade Theory Answers</h1>
+        <p class="page-sub">Translate a student's answer before grading — Yoruba included.</p>
+        <div class="card" style="padding:22px;">
+          <div class="field-row">
+            <div class="field"><label>Student answer</label><textarea id="gradeInput" rows="5" placeholder="Paste or type the student's theory answer here…"></textarea></div>
+            <div class="field"><label>Translate to</label><select id="gradeLang">
+              <option>Yoruba</option><option>French</option><option>Spanish</option><option>Portuguese</option><option>Arabic</option><option>Chinese</option><option>German</option><option>Italian</option><option>Russian</option><option>Hindi</option><option>Swahili</option>
+            </select>
+              <button class="btn btn-ghost btn-sm mt-8" id="translateBtn"><i class="fa-solid fa-language"></i> Translate</button>
+              <div class="card mt-16" id="translationResult" style="padding:14px;font-size:.86rem;min-height:60px;background:var(--surface-2);"></div>
+            </div>
+          </div>
+          <div class="field-row mt-16">
+            <div class="field"><label>Score (out of 10)</label><input type="number" id="gradeScore" min="0" max="10"></div>
+            <div class="field"><label>Comment</label><input type="text" id="gradeComment" placeholder="Feedback for the student"></div>
+          </div>
+          <button class="btn btn-navy" id="saveGradeBtn"><i class="fa-solid fa-check"></i> Save Grade</button>
+        </div>
+      </section>
+
+      <!-- MY STUDENTS -->
+      <section class="dash-section hidden" id="sec-students">
+        <h1 class="page-title">My Students</h1>
+        <p class="page-sub">Attendance, results, and certificates for students in courses you teach.</p>
+        <div class="card"><div class="table-wrap"><table class="data" id="myStudentsTable">
+          <thead><tr><th>Name</th><th>Class</th><th>Course</th><th>Attendance</th><th>Avg. Result</th><th>Certificate</th></tr></thead>
+          <tbody><tr><td colspan="6" class="text-center text-muted" style="padding:30px;">No students yet.</td></tr></tbody>
+        </table></div></div>
+      </section>
+
+      <!-- FEEDBACK & QUESTIONS -->
+      <section class="dash-section hidden" id="sec-feedback">
+        <h1 class="page-title">Feedback & Student Questions</h1>
+        <div id="feedbackList" class="grid grid-3"></div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Exam question -->
+<div class="modal-backdrop" id="modalQuestion">
+  <div class="modal">
+    <div class="modal-head"><h3>Add Exam Question</h3><button class="modal-close" onclick="window.scUtils.closeModal('modalQuestion')"><i class="fa-solid fa-xmark"></i></button></div>
+    <form id="questionForm">
+      <div class="field"><label>Course</label><select id="qCourse" required></select></div>
+      <div class="field"><label>Question type</label><select id="qType" required onchange="document.getElementById('qOptionsWrap').classList.toggle('hidden', this.value!=='objective')">
+        <option value="objective">Objective (multiple choice)</option><option value="theory">Theory</option>
+      </select></div>
+      <div class="field"><label>Question</label><textarea id="qText" rows="2" required></textarea></div>
+      <div id="qOptionsWrap">
+        <div class="field-row"><div class="field"><label>Option A</label><input type="text" id="qOptA"></div><div class="field"><label>Option B</label><input type="text" id="qOptB"></div></div>
+        <div class="field-row"><div class="field"><label>Option C</label><input type="text" id="qOptC"></div><div class="field"><label>Option D</label><input type="text" id="qOptD"></div></div>
+        <div class="field"><label>Correct option</label><select id="qCorrect"><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+      </div>
+      <button class="btn btn-gold btn-block" type="submit"><i class="fa-solid fa-floppy-disk"></i> Save Question</button>
+    </form>
+  </div>
+</div>
+
+<script type="module" src="teacher-dashboard.js"></script>
+</body>
+</html>
