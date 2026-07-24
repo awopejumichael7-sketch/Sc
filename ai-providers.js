@@ -6,11 +6,11 @@
    ========================================================================== */
 
 const PROVIDER_KEYS = {
-  gemini:     "YOUR_GEMINI_API_KEY",      // https://aistudio.google.com/app/apikey (free tier)
-  huggingface:"YOUR_HUGGINGFACE_API_KEY", // https://huggingface.co/settings/tokens (free tier)
+  gemini:     "AQ.Ab8RN6LmA5v6FVBnz_q94yxpQm2PeF3Qo035alF3iHqBFAqvUg",      // https://aistudio.google.com/app/apikey (free tier)
+  huggingface:"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", // https://huggingface.co/settings/tokens (free tier)
   cloudflare: {                            // https://developers.cloudflare.com/workers-ai (free tier)
-    accountId: "YOUR_CLOUDFLARE_ACCOUNT_ID",
-    apiToken:  "YOUR_CLOUDFLARE_API_TOKEN"
+    accountId: "36560eddb986830f2c527a35823debe6",
+    apiToken:  "cfut_aSWlhwko1fVXXLhzokdFTyPJ4vHI1KbhsrDLtu9s09693b3c"
   },
   ollamaUrl:  "http://localhost:11434"     // optional self-hosted fallback, only reachable on local networks
 };
